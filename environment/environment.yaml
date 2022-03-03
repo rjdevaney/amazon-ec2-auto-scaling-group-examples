@@ -31,4 +31,4 @@ Resources:
       Repositories:
         -
           PathComponent: /amazon-ec2-auto-scaling-group-examples
-          RepositoryUrl: https://github.com/aws-samples/amazon-ec2-auto-scaling-group-examples.git
+          RepositoryUrl: https://github.com/rjdevaney/amazon-ec2-auto-scaling-group-examples.git
