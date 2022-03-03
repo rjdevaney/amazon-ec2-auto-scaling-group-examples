@@ -1,0 +1,225 @@
+rick:~/environment/amazon-ec2-auto-scaling-group-examples/environment (main) $ ./configure.sh 
+++ aws sts get-caller-identity --query Account --output text
++ ACCOUNT_ID=558904400609
+++ sed 's/\(.*\)[a-z]/\1/'
+++ curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone
++ CURRENT_REGION=us-east-1
++ RED='\033[0;31m'
++ YELLOW='\033[1;33m'
++ NC='\033[0m'
++ export INFOPATH=/home/linuxbrew/.linuxbrew/share/info
++ INFOPATH=/home/linuxbrew/.linuxbrew/share/info
++ main
++ resize_volume
++ SIZE=20
+++ curl http://169.254.169.254/latest/meta-data/instance-id
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100    19  100    19    0     0   1551      0 --:--:-- --:--:-- --:--:--  1583
++ INSTANCEID=i-0d73a8e9c87de0f5c
+++ aws ec2 describe-instances --instance-id i-0d73a8e9c87de0f5c --query 'Reservations[0].Instances[0].BlockDeviceMappings[0].Ebs.VolumeId' --output text
++ VOLUMEID=vol-08efdc00f376a6516
++ aws ec2 modify-volume --volume-id vol-08efdc00f376a6516 --size 20
+{
+    "VolumeModification": {
+        "TargetSize": 20, 
+        "OriginalMultiAttachEnabled": false, 
+        "TargetVolumeType": "gp2", 
+        "ModificationState": "modifying", 
+        "TargetMultiAttachEnabled": false, 
+        "VolumeId": "vol-08efdc00f376a6516", 
+        "TargetIops": 100, 
+        "StartTime": "2022-03-03T09:25:47.000Z", 
+        "Progress": 0, 
+        "OriginalVolumeType": "gp2", 
+        "OriginalIops": 100, 
+        "OriginalSize": 10
+    }
+}
+++ aws ec2 describe-volumes-modifications --volume-id vol-08efdc00f376a6516 --filters Name=modification-state,Values=optimizing,completed --query 'length(VolumesModifications)' --output text
++ '[' 0 '!=' 1 ']'
++ sleep 1
+++ aws ec2 describe-volumes-modifications --volume-id vol-08efdc00f376a6516 --filters Name=modification-state,Values=optimizing,completed --query 'length(VolumesModifications)' --output text
++ '[' 0 '!=' 1 ']'
++ sleep 1
+++ aws ec2 describe-volumes-modifications --volume-id vol-08efdc00f376a6516 --filters Name=modification-state,Values=optimizing,completed --query 'length(VolumesModifications)' --output text
++ '[' 0 '!=' 1 ']'
++ sleep 1
+++ aws ec2 describe-volumes-modifications --volume-id vol-08efdc00f376a6516 --filters Name=modification-state,Values=optimizing,completed --query 'length(VolumesModifications)' --output text
++ '[' 0 '!=' 1 ']'
++ sleep 1
+++ aws ec2 describe-volumes-modifications --volume-id vol-08efdc00f376a6516 --filters Name=modification-state,Values=optimizing,completed --query 'length(VolumesModifications)' --output text
++ '[' 1 '!=' 1 ']'
+++ readlink -f /dev/xvda
++ '[' /dev/xvda = /dev/xvda ']'
++ sudo growpart /dev/xvda 1
+CHANGED: partition=1 start=4096 old: size=20967391 end=20971487 new: size=41938911 end=41943007
+++ cat /etc/os-release
++ STR='NAME="Amazon Linux"
+VERSION="2"
+ID="amzn"
+ID_LIKE="centos rhel fedora"
+VERSION_ID="2"
+PRETTY_NAME="Amazon Linux 2"
+ANSI_COLOR="0;33"
+CPE_NAME="cpe:2.3:o:amazon:amazon_linux:2"
+HOME_URL="https://amazonlinux.com/"'
++ SUB='VERSION_ID="2"'
++ [[ NAME="Amazon Linux"
+VERSION="2"
+ID="amzn"
+ID_LIKE="centos rhel fedora"
+VERSION_ID="2"
+PRETTY_NAME="Amazon Linux 2"
+ANSI_COLOR="0;33"
+CPE_NAME="cpe:2.3:o:amazon:amazon_linux:2"
+HOME_URL="https://amazonlinux.com/" == *\V\E\R\S\I\O\N\_\I\D\=\"\2\"* ]]
++ sudo xfs_growfs -d /
+meta-data=/dev/xvda1             isize=512    agcount=6, agsize=524159 blks
+         =                       sectsz=512   attr=2, projid32bit=1
+         =                       crc=1        finobt=1 spinodes=0
+data     =                       bsize=4096   blocks=2620923, imaxpct=25
+         =                       sunit=0      swidth=0 blks
+naming   =version 2              bsize=4096   ascii-ci=0 ftype=1
+log      =internal               bsize=4096   blocks=2560, version=2
+         =                       sectsz=512   sunit=0 blks, lazy-count=1
+realtime =none                   extsz=4096   blocks=0, rtextents=0
+data blocks changed from 2620923 to 5242363
++ upgrade_existing_packages
++ _logger '[+] Upgrading system packages'
+++ date
++ echo -e 'Thu Mar  3 09:25:56 UTC 2022 \033[1;33m[*] [+] Upgrading system packages \033[0m'
+Thu Mar  3 09:25:56 UTC 2022 [*] [+] Upgrading system packages 
++ sudo yum update -y
+Loaded plugins: extras_suggestions, langpacks, priorities, update-motd
+amzn2-core                                                                             | 3.7 kB  00:00:00     
+233 packages excluded due to repository priority protections
+Resolving Dependencies
+--> Running transaction check
+---> Package aws-cfn-bootstrap.noarch 0:2.0-9.amzn2 will be updated
+---> Package aws-cfn-bootstrap.noarch 0:2.0-10.amzn2 will be an update
+---> Package cloud-init.noarch 0:19.3-44.amzn2 will be updated
+---> Package cloud-init.noarch 0:19.3-45.amzn2 will be an update
+---> Package containerd.x86_64 0:1.4.6-7.amzn2 will be updated
+---> Package containerd.x86_64 0:1.4.6-8.amzn2 will be an update
+---> Package ec2-utils.noarch 0:1.2-46.amzn2 will be updated
+---> Package ec2-utils.noarch 0:1.2-47.amzn2 will be an update
+---> Package terraform.x86_64 0:1.1.6-1 will be updated
+---> Package terraform.x86_64 0:1.1.7-1 will be an update
+---> Package tzdata.noarch 0:2021a-1.amzn2 will be updated
+---> Package tzdata.noarch 0:2021e-1.amzn2 will be an update
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+==============================================================================================================
+ Package                      Arch              Version                    Repository                    Size
+==============================================================================================================
+Updating:
+ aws-cfn-bootstrap            noarch            2.0-10.amzn2               amzn2-core                   768 k
+ cloud-init                   noarch            19.3-45.amzn2              amzn2-core                   926 k
+ containerd                   x86_64            1.4.6-8.amzn2              amzn2extra-docker             24 M
+ ec2-utils                    noarch            1.2-47.amzn2               amzn2-core                    12 k
+ terraform                    x86_64            1.1.7-1                    hashicorp                     12 M
+ tzdata                       noarch            2021e-1.amzn2              amzn2-core                   484 k
+
+Transaction Summary
+==============================================================================================================
+Upgrade  6 Packages
+
+Total download size: 38 M
+Downloading packages:
+Delta RPMs disabled because /usr/bin/applydeltarpm not installed.
+(1/6): aws-cfn-bootstrap-2.0-10.amzn2.noarch.rpm                                       | 768 kB  00:00:00     
+(2/6): cloud-init-19.3-45.amzn2.noarch.rpm                                             | 926 kB  00:00:00     
+(3/6): ec2-utils-1.2-47.amzn2.noarch.rpm                                               |  12 kB  00:00:00     
+(4/6): tzdata-2021e-1.amzn2.noarch.rpm                                                 | 484 kB  00:00:00     
+(5/6): containerd-1.4.6-8.amzn2.x86_64.rpm                                             |  24 MB  00:00:00     
+(6/6): terraform-1.1.7-1.x86_64.rpm                                                    |  12 MB  00:00:00     
+--------------------------------------------------------------------------------------------------------------
+Total                                                                          54 MB/s |  38 MB  00:00:00     
+Running transaction check
+Running transaction test
+Transaction test succeeded
+Running transaction
+  Updating   : ec2-utils-1.2-47.amzn2.noarch                                                             1/12 
+  Updating   : containerd-1.4.6-8.amzn2.x86_64                                                           2/12 
+  Updating   : aws-cfn-bootstrap-2.0-10.amzn2.noarch                                                     3/12 
+  Updating   : cloud-init-19.3-45.amzn2.noarch                                                           4/12 
+  Updating   : terraform-1.1.7-1.x86_64                                                                  5/12 
+  Updating   : tzdata-2021e-1.amzn2.noarch                                                               6/12 
+  Cleanup    : ec2-utils-1.2-46.amzn2.noarch                                                             7/12 
+  Cleanup    : aws-cfn-bootstrap-2.0-9.amzn2.noarch                                                      8/12 
+  Cleanup    : cloud-init-19.3-44.amzn2.noarch                                                           9/12 
+  Cleanup    : terraform-1.1.6-1.x86_64                                                                 10/12 
+  Cleanup    : tzdata-2021a-1.amzn2.noarch                                                              11/12 
+  Cleanup    : containerd-1.4.6-7.amzn2.x86_64                                                          12/12 
+  Verifying  : tzdata-2021e-1.amzn2.noarch                                                               1/12 
+  Verifying  : terraform-1.1.7-1.x86_64                                                                  2/12 
+  Verifying  : cloud-init-19.3-45.amzn2.noarch                                                           3/12 
+  Verifying  : aws-cfn-bootstrap-2.0-10.amzn2.noarch                                                     4/12 
+  Verifying  : containerd-1.4.6-8.amzn2.x86_64                                                           5/12 
+  Verifying  : ec2-utils-1.2-47.amzn2.noarch                                                             6/12 
+  Verifying  : containerd-1.4.6-7.amzn2.x86_64                                                           7/12 
+  Verifying  : tzdata-2021a-1.amzn2.noarch                                                               8/12 
+  Verifying  : ec2-utils-1.2-46.amzn2.noarch                                                             9/12 
+  Verifying  : cloud-init-19.3-44.amzn2.noarch                                                          10/12 
+  Verifying  : terraform-1.1.6-1.x86_64                                                                 11/12 
+  Verifying  : aws-cfn-bootstrap-2.0-9.amzn2.noarch                                                     12/12 
+
+Updated:
+  aws-cfn-bootstrap.noarch 0:2.0-10.amzn2 cloud-init.noarch 0:19.3-45.amzn2 containerd.x86_64 0:1.4.6-8.amzn2
+  ec2-utils.noarch 0:1.2-47.amzn2         terraform.x86_64 0:1.1.7-1        tzdata.noarch 0:2021e-1.amzn2    
+
+Complete!
++ _logger '[+] Upgrading Python pip and setuptools'
+++ date
++ echo -e 'Thu Mar  3 09:26:12 UTC 2022 \033[1;33m[*] [+] Upgrading Python pip and setuptools \033[0m'
+Thu Mar  3 09:26:12 UTC 2022 [*] [+] Upgrading Python pip and setuptools 
++ python3 -m pip install --upgrade pip setuptools --user
+Collecting pip
+  Downloading pip-22.0.3-py3-none-any.whl (2.1 MB)
+     |████████████████████████████████| 2.1 MB 7.6 MB/s 
+Collecting setuptools
+  Downloading setuptools-60.9.3-py3-none-any.whl (1.1 MB)
+     |████████████████████████████████| 1.1 MB 7.7 MB/s 
+Installing collected packages: pip, setuptools
+Successfully installed pip-22.0.3 setuptools-60.9.3
++ _logger '[+] Installing latest AWS CLI'
+++ date
++ echo -e 'Thu Mar  3 09:26:24 UTC 2022 \033[1;33m[*] [+] Installing latest AWS CLI \033[0m'
+Thu Mar  3 09:26:24 UTC 2022 [*] [+] Installing latest AWS CLI 
++ python3 -m pip install --upgrade --user awscli
+Collecting awscli
+  Downloading awscli-1.22.66-py3-none-any.whl (3.8 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.8/3.8 MB 22.6 MB/s eta 0:00:00
+Collecting PyYAML<5.5,>=3.10
+  Downloading PyYAML-5.4.1-cp37-cp37m-manylinux1_x86_64.whl (636 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 636.6/636.6 KB 31.8 MB/s eta 0:00:00
+Collecting s3transfer<0.6.0,>=0.5.0
+  Downloading s3transfer-0.5.2-py3-none-any.whl (79 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 79.5/79.5 KB 12.0 MB/s eta 0:00:00
+Requirement already satisfied: docutils<0.16,>=0.10 in /usr/lib/python3.7/site-packages (from awscli) (0.14)
+Collecting colorama<0.4.4,>=0.2.5
+  Downloading colorama-0.4.3-py2.py3-none-any.whl (15 kB)
+Collecting rsa<4.8,>=3.1.2
+  Downloading rsa-4.7.2-py3-none-any.whl (34 kB)
+Collecting botocore==1.24.11
+  Downloading botocore-1.24.11-py3-none-any.whl (8.6 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 8.6/8.6 MB 61.5 MB/s eta 0:00:00
+Requirement already satisfied: urllib3<1.27,>=1.25.4 in /usr/local/lib/python3.7/site-packages (from botocore==1.24.11->awscli) (1.26.8)
+Requirement already satisfied: python-dateutil<3.0.0,>=2.1 in /usr/local/lib/python3.7/site-packages (from botocore==1.24.11->awscli) (2.8.2)
+Requirement already satisfied: jmespath<1.0.0,>=0.7.1 in /usr/local/lib/python3.7/site-packages (from botocore==1.24.11->awscli) (0.10.0)
+Collecting pyasn1>=0.1.3
+  Downloading pyasn1-0.4.8-py2.py3-none-any.whl (77 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 77.1/77.1 KB 14.9 MB/s eta 0:00:00
+Requirement already satisfied: six>=1.5 in /usr/local/lib/python3.7/site-packages (from python-dateutil<3.0.0,>=2.1->botocore==1.24.11->awscli) (1.16.0)
+Installing collected packages: pyasn1, rsa, PyYAML, colorama, botocore, s3transfer, awscli
+Successfully installed PyYAML-5.4.1 awscli-1.22.66 botocore-1.24.11 colorama-0.4.3 pyasn1-0.4.8 rsa-4.7.2 s3transfer-0.5.2
++ install_linuxbrew
++ _logger '[+] Creating touch symlink'
+++ date
++ echo -e 'Thu Mar  3 09:26:33 UTC 2022 \033[1;33m[*] [+] Creating touch symlink \033[0m'
+Thu Mar  3 09:26:33 UTC 2022 [*] [+] Creating touch symlink 
++ sudo ln -sf /bin/touch /usr/bin/touch
+ln: ‘/bin/touch’ and ‘/usr/bin/touch’ are the same file
